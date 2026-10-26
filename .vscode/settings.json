@@ -1,0 +1,6 @@
+{
+  "dart.env": {
+    "CHROME_EXECUTABLE": "/Applications/Chromium.app/Contents/MacOS/Chromium"
+  },
+  "cmake.ignoreCMakeListsMissing": true
+}

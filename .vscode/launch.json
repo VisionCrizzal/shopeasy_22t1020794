@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ShopEasy (Chromium)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "chrome",
+      "env": {
+        "CHROME_EXECUTABLE": "/Applications/Chromium.app/Contents/MacOS/Chromium"
+      }
+    }
+  ]
+}
