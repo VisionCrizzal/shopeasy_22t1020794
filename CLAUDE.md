@@ -410,8 +410,8 @@ Nội dung...
 
 | Thông tin | Giá trị |
 |-----------|---------|
-| Flutter SDK | (cần xác nhận phiên bản) |
-| Dart SDK | ^3.13.2 |
+| Flutter SDK | 3.47.2 (channel stable) |
+| Dart SDK | ^3.13.2 (DevTools 2.60.0) |
 | OS phát triển | macOS |
 | IDE | VS Code (với Antigravity add-on) |
 | **Thiết bị chạy** | **Ungoogled Chromium / Chrome (web)** — không dùng Android emulator |
@@ -518,6 +518,18 @@ dev_dependencies:
 2. Bổ sung 2 skills mới (`mobile-design` và `ui-states`) và liên kết vào `~/.gemini/config/skills/` để kích hoạt trên VS Code.
 3. Cập nhật danh sách các skills vào `CLAUDE.md`.
 **Kết quả**: Đã kích hoạt thành công 3 skills (`flutter-expert`, `mobile-design`, `ui-states`) cùng 2 bộ Official Plugins (`flutter`, `firebase`) và cập nhật đầy đủ vào tài liệu `CLAUDE.md`.
+
+### Session 7 - 2026-10-30 17:20
+
+**Bối cảnh**: Hoàn thiện toàn bộ Chương 3 theo slide bài giảng `chuong-03-flutter-va-moi-truong.pdf` (Slide 60–70) và rà soát toàn diện với Flutter 3.47.2 / Dart 3.13.2 cùng bộ 3 skills (`flutter-expert`, `mobile-design`, `ui-states`).
+**Yêu cầu**:
+1. Hoàn thành các hạng mục còn lại của Chương 3 (`AppSizes` Slide 61, `AppTheme` Slide 62, `SplashScreen` Slide 63–65 & Bài 3 Nâng cao Slide 70, `TH 20` Bảng màu `_OMau` với `Wrap` Slide 60).
+2. Kiểm tra lại toàn bộ dự án sau khi cập nhật Flutter/Dart và sửa các điểm thiếu sót từ phiên trước.
+**Kết quả**:
+- Áp dụng thực tế `AppTheme.lightTheme` cho toàn bộ nhánh ShopEasy (`SplashScreen`, `HomeScreen`).
+- Nâng cấp `SplashScreen` lên đúng chuỗi animation **3 giai đoạn có `Interval`** (Giai đoạn 1: Logo Fade + Scale; Giai đoạn 2: Tên app & Slogan Slide + Fade; Giai đoạn 3: Loading indicator Fade) theo đúng Bài 3 Nâng cao (Slide 70).
+- Tối ưu `HomeScreen` theo chuẩn `flutter-expert` (chuyển helper methods thành `const StatelessWidget`), `mobile-design` (dùng đúng bảng màu `AppColors.secondary` `#F97316` cho giá sản phẩm, `AppColors.success`/`error` cho trạng thái kho), và `ui-states` (thêm trạng thái Empty/Placeholder cho các tab dưới đáy).
+- Viết lại `test/widget_test.dart` để kiểm thử tự động `MenuPage` → `SplashScreen` → `HomeScreen`, đạt `flutter analyze` 0 lỗi và `flutter test` PASS 100%.
 
 ---
 

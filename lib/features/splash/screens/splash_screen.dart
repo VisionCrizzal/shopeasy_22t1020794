@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../home/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,43 +15,69 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  late final AnimationController _controller;
+
+  // Chuỗi animation 3 giai đoạn có Interval (Slide 63, 64 & Bài 3 Nâng cao Slide 70)
+  late final Animation<double> _logoFadeAnimation;
+  late final Animation<double> _logoScaleAnimation;
+  late final Animation<double> _textFadeAnimation;
+  late final Animation<Offset> _textSlideAnimation;
+  late final Animation<double> _loaderFadeAnimation;
+
   Timer? _navigationTimer;
 
   @override
   void initState() {
     super.initState();
 
-    // Khởi tạo animation controller (Slide 63)
+    // Khởi tạo AnimationController (Slide 63)
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1400),
       vsync: this,
     );
 
-    // Fade animation (mờ dần sang rõ)
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    // Giai đoạn 1 (0.0 -> 0.45): Logo hiện rõ và phóng nhẹ
+    _logoFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.0, 0.7, curve: Curves.easeOut),
+        curve: const Interval(0.0, 0.45, curve: Curves.easeOut),
+      ),
+    );
+    _logoScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.45, curve: Curves.easeOutBack),
       ),
     );
 
-    // Slide animation (trượt nhẹ từ dưới lên)
-    _slideAnimation = Tween<Offset>(
+    // Giai đoạn 2 (0.35 -> 0.75): Tên app & slogan trượt từ dưới lên
+    _textFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.35, 0.75, curve: Curves.easeOut),
+      ),
+    );
+    _textSlideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.1, 0.8, curve: Curves.easeOutCubic),
+        curve: const Interval(0.35, 0.75, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    // Giai đoạn 3 (0.65 -> 1.0): Loading indicator xuất hiện
+    _loaderFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.65, 1.0, curve: Curves.easeIn),
       ),
     );
 
     _controller.forward();
 
-    // Điều hướng sang HomeScreen sau 2.2 giây (Slide 70 - Bài 3 Nâng cao)
+    // Điều hướng bằng pushReplacement kèm kiểm tra mounted (Slide 70)
     _navigationTimer = Timer(const Duration(milliseconds: 2200), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -62,69 +90,83 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void dispose() {
     _navigationTimer?.cancel();
-    _controller.dispose(); // BẮT BUỘC để tránh rò rỉ bộ nhớ (Slide 64, 69)
+    _controller.dispose(); // BẮT BUỘC giải phóng tránh rò rỉ bộ nhớ (Slide 64, 69)
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primary, // Nền xanh thương hiệu ShopEasy
-      body: Center(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Logo giỏ hàng thương hiệu ShopEasy
-                Container(
-                  padding: const EdgeInsets.all(22),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.15),
-                        blurRadius: 24,
-                        spreadRadius: 4,
+    return Theme(
+      data: AppTheme.lightTheme,
+      child: Scaffold(
+        backgroundColor: AppColors.primary,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Giai đoạn 1: Logo ShopEasy
+              FadeTransition(
+                opacity: _logoFadeAnimation,
+                child: ScaleTransition(
+                  scale: _logoScaleAnimation,
+                  child: Container(
+                    padding: const EdgeInsets.all(22),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.15),
+                          blurRadius: 24,
+                          spreadRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.shopping_bag_rounded,
+                      size: 68,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Giai đoạn 2: Tên app và slogan
+              FadeTransition(
+                opacity: _textFadeAnimation,
+                child: SlideTransition(
+                  position: _textSlideAnimation,
+                  child: const Column(
+                    children: [
+                      Text(
+                        AppStrings.appName,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 34,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Mua sắm thông minh · Tiện lợi mỗi ngày',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ],
                   ),
-                  child: const Icon(
-                    Icons.shopping_bag_rounded,
-                    size: 68,
-                    color: AppColors.primary,
-                  ),
                 ),
-                const SizedBox(height: 24),
+              ),
+              const SizedBox(height: 56),
 
-                // Tên ứng dụng
-                const Text(
-                  'ShopEasy',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 34,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-                const SizedBox(height: 8),
-
-                // Slogan
-                const Text(
-                  'Mua sắm thông minh · Tiện lợi mỗi ngày',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                const SizedBox(height: 56),
-
-                // Loading indicator (Slide 70)
-                const SizedBox(
+              // Giai đoạn 3: Loading indicator
+              FadeTransition(
+                opacity: _loaderFadeAnimation,
+                child: const SizedBox(
                   width: 26,
                   height: 26,
                   child: CircularProgressIndicator(
@@ -132,8 +174,8 @@ class _SplashScreenState extends State<SplashScreen>
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
