@@ -5,7 +5,7 @@
 > **Giảng viên**: Nguyễn Dũng - Khoa CNTT, Trường ĐHKH, Đại học Huế
 > **Trạng thái hiện tại**: Kiến trúc Feature-First (core/ + features/ cho ShopEasy + Labs độc lập)
 > **Chạy trên**: Ungoogled Chromium / Chrome (web) — đã cấu hình tự động nhận diện
-> **Cập nhật lần cuối**: 2026-10-26
+> **Cập nhật lần cuối**: 2026-10-30
 
 ---
 
@@ -85,12 +85,15 @@
 
 ## 📊 Tiến độ hiện tại
 
-### Chương 3 - Khởi tạo dự án ⏳ Đang thực hiện
+### Chương 3 - Khởi tạo dự án ✅ Hoàn thành
 
 - [x] Tạo Flutter project (`shopeasy_22t1020794`)
 - [x] Cấu trúc thư mục theo chuẩn Feature-First (`core/`, `features/` - Slide 57, 58)
-- [ ] Splash screen
-- [x] Khai báo màu sắc dùng chung (`AppColors` - Slide 59) & `ThemeData` tùy chỉnh (`AppTheme`)
+- [x] Khai báo màu sắc dùng chung (`AppColors` - Slide 59)
+- [x] Thực hành TH 20: Bảng màu riêng cho ShopEasy `_OMau` với `Wrap` (Slide 60)
+- [x] Khai báo kích thước chuẩn `AppSizes` (Slide 61)
+- [x] `ThemeData` tùy chỉnh (`AppTheme.lightTheme` - Slide 62)
+- [x] Màn hình Splash Screen có animation Fade + Slide & auto navigate (Slide 63-65, 70)
 - [x] Xóa template code mặc định
 
 ### Chương 4 → 12: ⬜ Chưa bắt đầu
@@ -278,9 +281,10 @@ AI Assistant ưu tiên vận dụng các bộ quy chuẩn kỹ năng (Skills) đ
 Chương 3 (khi hoàn thành):
   - [x] lib/core/constants/app_colors.dart (Slide Trang 59)
   - [x] lib/core/constants/app_strings.dart
-  - [x] lib/core/constants/app_sizes.dart
-  - [x] lib/core/theme/app_theme.dart
-  - [ ] lib/features/splash/screens/splash_screen.dart
+  - [x] lib/core/constants/app_sizes.dart (Slide Trang 61)
+  - [x] lib/core/theme/app_theme.dart (Slide Trang 62)
+  - [x] lib/core/widgets/color_palette_page.dart (Slide Trang 60 - TH 20)
+  - [x] lib/features/splash/screens/splash_screen.dart (Slide Trang 63-65, 70)
 
 Chương 4 (khi hoàn thành):
   - [ ] lib/models/product.dart

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'bai_tap_1/bai_tap_1_page.dart';
 import 'bai_tap_2/bai_tap_2_page.dart';
 import 'bai_tap_2_1/bai_tap_2_1_page.dart';
-import 'features/home/screens/home_screen.dart';
+import 'core/widgets/color_palette_page.dart';
+import 'features/splash/screens/splash_screen.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -103,7 +104,7 @@ class MenuPage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  MaterialPageRoute(builder: (_) => const SplashScreen()),
                 );
               },
             ),
@@ -116,6 +117,18 @@ class MenuPage extends StatelessWidget {
             'Bài tập thực hành trên lớp (Labs):',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 12),
+
+          // Thực hành 20 (Chương 3)
+          _buildExerciseCard(
+            context,
+            icon: Icons.palette_rounded,
+            title: 'TH 20: Bảng màu riêng cho ShopEasy',
+            subtitle: 'Khai báo AppColors & hiển thị Wrap ô màu 80x80 (Slide 60)',
+            color: Colors.teal,
+            destination: const ColorPalettePage(),
+          ),
+
           const SizedBox(height: 12),
 
           // Bài tập 1
